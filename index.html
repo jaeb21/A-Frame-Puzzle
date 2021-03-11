@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script> 
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {    
+        document.querySelector('#Door2').addEventListener("click",myFunction);
+        // addEventListener(event, function, useCapture)
+        function myFunction(){
+          document.querySelector("#Door1").emit("disappear");
+          document.querySelector("#Door3").emit("disappear");
+          document.querySelector("#Door2").emit("disappear");
+          document.querySelector("#Door4").emit("appear");
+          document.querySelector("#Door5").emit("appear");
+          document.querySelector("#Door6").emit("appear");
+          document.querySelector("#clue3").emit("appear");
+          document.querySelector("#clue4").emit("appear");
+        }
+      });
+ </script>
+ 
+</head>
+<body>
+    <a-scene>
+        <a-assets>
+        <a-assets-item id="door1" src="assets/Door1/Door 2.gltf"></a-assets-item>
+        <a-assets-item id="door2" src="assets/Door2/Door2.gltf"></a-assets-item>
+        <a-assets-item id="door3" src="assets/Door3/Door_01.gltf"></a-assets-item>
+        <a-assets-item id="door4" src="assets/Door4/model.gltf"></a-assets-item>
+        <a-assets-item id="door5" src="assets/Door5/Door 3.gltf"></a-assets-item>
+        <a-assets-item id="door6" src="assets/Door6/Door obj.gltf"></a-assets-item>
+        </a-assets>
+        <a-entity position="0 0 80">
+    <a-camera>
+        <a-entity cursor=" scale: 3 3 3" 
+        material="color:#FFF; shader: flat;"
+        geometry="primitive: sphere; radius:0.02;"
+        position="0 0 -1"
+       ></a-entity>
+    </a-camera>
+   
+</a-entity>
+<a-sky color="darkgray"
+event-set__targetvisibility="_event:click; _target:#welcomeText; visible:false"
+event-set__targetvisibility2="_event:click; _target:#instructions; visible:false"
+event-set__targetvisibility3="_event:click; _target:#start; visible:false"
+event-set__targetappear="_event:click; _target:#clue1; visible:true"
+event-set__targetappear2="_event:click; _target:#clue2; visible:true"
+></a-sky>
+<!--Text-->
+<a-text id="welcomeText" value="Welcome to my puzzle!"
+text.align="center"
+position="-18 60 -50"
+scale="15 25 5 "></a-text>
+<a-text id="instructions" value="Click the right box based on the clues given"
+position="-34 55 -50"
+scale="15 25 5"></a-text>
+<a-text id="start"value="CLICK THE GRAY TO GET STARTED"
+text.align="center"
+position="-28 50 -50"
+scale="15 25 5 "></a-text>
+<a-text id="clue1" value="What pops out will not prosper"
+text.align="center"
+position="-18 60 -50"
+scale="15 25 5 "
+visible="false"></a-text>
+<a-text id="clue2" value="If the other side is visible, trust is uncertain"
+position="-27 55 -50"
+scale="15 25 5"
+visible="false"></a-text>
+<a-text id="lose" value="YOU LOSE"
+text.align="center"
+position="-13 50 -50"
+color="red"
+visible="false"
+scale="25 35 15"></a-text>
+<a-text id="clue3" value="boring can be dangerous"
+text.align="center"
+position="-18 60 -50"
+scale="15 25 5 "
+visible="false"
+animation="property: visible; to:true; startEvents: appear; delay: 2000;"
+></a-text>
+<a-text id="clue4" value="If excited succeed you will"
+position="-21 55 -50"
+scale="15 25 5"
+visible="false"
+animation="property: visible; to:true; startEvents: appear; delay: 2000;"
+></a-text>
+<a-text id="win" value="YOU WIN"
+text.align="center"
+position="-13 50 -50"
+color="green"
+visible="false"
+scale="25 35 15"></a-text>
+<!--Doors-->
+<a-entity id="Door1"  
+gltf-model="#door1"
+class="clickable"
+position="0 -10 -50"
+scale=".15 .15 .15"
+event-set__Lose="_event:click; _target:#lose; visible:true"
+animation="property: visible ; to:false; startEvents: disappear; delay: 1000;"></a-entity>
+<a-entity id="Door2"  
+gltf-model="#door2"
+position="-50 13 -50"
+rotation="0 90 0"
+scale="13 13 13"
+event-set__targetrotate="_event:click; rotation: 0 0 0"
+event-set__targetvisibile="_event:click; _target:#clue1; visible:false"
+event-set__targetvisibile2="_event:click; _target:#clue2; visible:false"
+animation="property: visible ; to:false; startEvents: disappear; delay: 1000;"
+></a-entity>
+<a-entity id="Door3" 
+gltf-model="#door3"
+position="50 -10 -50"
+rotation="0 90 0"
+scale="5 5 5"
+event-set__Lose="_event:click; _target:#lose; visible:true"
+animation="property: visible; to:false; startEvents: disappear; delay: 1000;"></a-entity>
+<a-entity id="Door4" 
+gltf-model="#door4"
+position="50 -205 -100"
+visible="false"
+rotation="0 0 0"
+scale="135 135 135"
+animation="property: visible; to:true; startEvents: appear; delay: 1500;"
+event-set__targetrotate2="_event:click; rotation: 0 -90 0"
+event-set__Win="_event:click; _target:#win; visible:true"
+event-set__end="_event:click; _target:#Door5; visible: false"
+event-set__end2="_event:click; _target:#Door6; visible: false"
+event-set__end3="_event:click; _target:#clue3; visible: false"
+event-set__end4="_event:click; _target:#clue4; visible: false"
+></a-entity>
+<a-entity id="Door5" 
+gltf-model="#door5"
+position="0 -12 -100"
+visible="false"
+rotation="0 0 0"
+scale=".23 .23 .23"
+animation="property: visible; to:true; startEvents: appear; delay: 1500;"
+event-set__Lose="_event:click; _target:#lose; visible:true"
+></a-entity>
+<a-entity id="Door6" 
+gltf-model="#door6"
+visible="false"
+position="-70 -10 -100"
+rotation="0 25 0"
+scale=".30 .30 .30"
+animation="property: visible; to:true; startEvents: appear; delay: 1500;"
+event-set__Lose="_event:click; _target:#lose; visible:true"
+></a-entity>
+
+    </a-scene>
+</body>
+</html>
